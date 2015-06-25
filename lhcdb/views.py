@@ -26,16 +26,32 @@ def index():
                            title='Home',
                            connections=query_dict)
 
+@app.route('/inputs')
+def inputs():
+    query = db_session.query(Input.name).all()
+    results = zip(*query)[0]
+    return render_template('inputs.html',
+                           title='Inputs',
+                           inputs=results)
+
 @app.route('/configurations')
 def configurations():
     query = HardwareConnections.query.order_by('date_time').all()
-    query = Input.query.order_by('name').all()
     print query
+    for result in query:
+        query_dict = dict(result.__dict__)
+        query_dict.pop('_sa_instance_state', None)
     return 'Hello!'
 
-@app.route('/current-config')
-def current_config():
-    return "Hallo!"
+@app.route('/add-configuration')
+@requires_auth
+def add_configuration():
+    query = HardwareConnections.query.order_by('date_time').first()
+    query_dict = dict(query.__dict__)
+    query_dict.pop('_sa_instance_state', None)
+    return render_template('index.html',
+                           title='Add new configuration',
+                           connections=query_dict)
 
 @app.route('/test')
 @requires_auth
