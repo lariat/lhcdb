@@ -1,0 +1,45 @@
+{% set navigation_bar = [
+    ('/', 'index', 'Home'),
+    ('/test', 'test', 'Test'),
+    ('/help', 'help', 'Help'),
+] -%}
+
+{% set active_page = active_page|default('index') -%}
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    {% if title %}
+    <title>LHCdb &mdash; {{ title }}</title>
+    {% else %}
+    <title>LArIAT hardware connections database</title>
+    {% endif %}
+    <link href="{{ url_for('static', filename='lib/bootstrap/3.3.5/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" media="screen">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css" media="screen">
+  </head>
+  <body>
+
+    <div class="container">
+
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            {% for href, id, caption in navigation_bar %}
+            <li role="presentation"{% if id == active_page %} class="active"{% endif %}><a href="{{ href|e }}">{{ caption|e }}</a></li>
+            {% endfor %}
+          </ul>
+        </nav>
+        <h3 class="text-muted">LHCdb</h3>
+      </div>
+
+      {% block content %}{% endblock %}
+
+      <footer class="footer">
+        <p>O_O</p>
+      </footer>
+
+    </div>
+
+  </body>
+</html>
