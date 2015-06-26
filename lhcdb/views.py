@@ -66,6 +66,16 @@ def add_config():
                            title='Add new configuration',
                            connections=result_dict)
 
+@app.route('/submit-config', methods=['GET', 'POST'])
+#@requires_auth
+def submit_config():
+    if request.method == 'POST':
+        print request.form
+        #print request.form.get('caen-board-7-channel-32', None)
+        response = make_response(redirect(url_for('add_config')))
+        return response
+    return 'Error!'
+
 @app.route('/help')
 def help():
     return 'I need somebody! Not just anybody!'
