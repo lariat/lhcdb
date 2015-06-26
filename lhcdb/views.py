@@ -56,15 +56,15 @@ def config():
                            title='Configurations',
                            connections=result)
 
-@app.route('/add-configuration')
-@requires_auth
-def add_configuration():
-    query = HardwareConnections.query.order_by('date_time').first()
-    query_dict = dict(query.__dict__)
-    query_dict.pop('_sa_instance_state', None)
-    return render_template('index.html',
+@app.route('/add-config')
+#@requires_auth
+def add_config():
+    result = HardwareConnections.query.order_by('date_time').first()
+    result_dict = dict(result.__dict__)
+    result_dict.pop('_sa_instance_state', None)
+    return render_template('add-config.html',
                            title='Add new configuration',
-                           connections=query_dict)
+                           connections=result_dict)
 
 @app.route('/help')
 def help():
