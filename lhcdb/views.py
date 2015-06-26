@@ -66,11 +66,6 @@ def add_configuration():
                            title='Add new configuration',
                            connections=query_dict)
 
-@app.route('/test')
-@requires_auth
-def test():
-    return render_template('test.html', title='Test')
-
 @app.route('/help')
 def help():
     return 'I need somebody! Not just anybody!'
