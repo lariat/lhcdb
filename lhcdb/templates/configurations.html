@@ -27,7 +27,7 @@
           {% for configuration in configurations.items %}
             <tr>
               <th scope="row">{{ configuration.id }}</th>
-              <td>{{ configuration.date_time }}</td>
+              <td><a href="{{ url_for('config', id=configuration.id) }}">{{ configuration.date_time }}</a></td>
               <td>{{ configuration.date_time_added }}</td>
               <td>{{ configuration.date_time_updated }}</td>
             </tr>
