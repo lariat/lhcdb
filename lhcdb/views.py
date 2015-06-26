@@ -13,12 +13,12 @@ from lhcdb.auth import requires_auth
 @app.route('/')
 @app.route('/index')
 def index():
-    query = HardwareConnections.query.order_by('date_time').first()
-    query_dict = dict(query.__dict__)
-    query_dict.pop('_sa_instance_state', None)
+    result = HardwareConnections.query.order_by('date_time').first()
+    result_dict = dict(result.__dict__)
+    result_dict.pop('_sa_instance_state', None)
     return render_template('index.html',
                            title='Home',
-                           connections=query_dict)
+                           connections=result_dict)
 
 @app.route('/configurations')
 @app.route('/configurations/<int:page>')
@@ -46,6 +46,15 @@ def inputs():
     return render_template('inputs.html',
                            title='Inputs',
                            inputs=results)
+
+@app.route('/config')
+def config():
+    id_ = request.args.get('id', 1)
+    query = HardwareConnections.query.filter(HardwareConnections.id==id_)
+    result = query.first_or_404()
+    return render_template('config.html',
+                           title='Configurations',
+                           connections=result)
 
 @app.route('/add-configuration')
 @requires_auth

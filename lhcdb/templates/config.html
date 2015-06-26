@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% set active_page = "configurations" %}
+
+{% block content %}
+
+      <div class="page-header">
+        <h1>Configuration <small>as of {{ connections.date_time}}</small></h1>
+      </div>
+
+      {% include 'connections.html' %}
+
+{% endblock %}
