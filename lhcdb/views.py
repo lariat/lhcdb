@@ -10,12 +10,6 @@ from lhcdb.database import db_session
 from lhcdb.models import Input, HardwareConnections
 from lhcdb.auth import requires_auth
 
-#def query():
-#    #q = db_session.query(HardwareConnections).order_by(HardwareConnections.date_time).first()
-#    #q = db_session.query(Input).order_by(Input.name).first()
-#    q = HardwareConnections.query.order_by('date_time').first()
-#    return q
-
 @app.route('/')
 @app.route('/index')
 def index():
@@ -26,22 +20,32 @@ def index():
                            title='Home',
                            connections=query_dict)
 
+@app.route('/configurations')
+@app.route('/configurations/<int:page>')
+def configurations(page=1):
+    #query = HardwareConnections.query.order_by('date_time').all()
+    #query = HardwareConnections.query.with_entities(
+    #    HardwareConnections.id,
+    #    HardwareConnections.date_time,
+    #    HardwareConnections.date_time_added,
+    #    HardwareConnections.date_time_updated,
+    #    ).order_by('date_time').all()
+    configs = HardwareConnections.query.order_by('date_time').paginate(
+        page, 10
+        )
+    return render_template('configurations.html',
+                           configurations=configs,
+                           title='Configurations')
+    return 'Hello!'
+
 @app.route('/inputs')
 def inputs():
     query = db_session.query(Input.name).all()
+    #query = Input.query.with_entities(Input.name).all()
     results = zip(*query)[0]
     return render_template('inputs.html',
                            title='Inputs',
                            inputs=results)
-
-@app.route('/configurations')
-def configurations():
-    query = HardwareConnections.query.order_by('date_time').all()
-    print query
-    for result in query:
-        query_dict = dict(result.__dict__)
-        query_dict.pop('_sa_instance_state', None)
-    return 'Hello!'
 
 @app.route('/add-configuration')
 @requires_auth

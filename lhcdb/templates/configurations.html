@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% set active_page = "configurations" %}
+
+{% block content %}
+
+      <div class="page-header">
+        <h1>Configurations</h1>
+      </div>
+
+      <div class="panel panel-default">
+
+        <div class="panel-heading">
+          <h3 class="panel-title">List of configurations</h3>
+        </div>
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Time stamp of configuration</th>
+              <th>Added</th>
+              <th>Last modified</th>
+            </tr>
+          </thead>
+          <tbody>
+
+          {% for configuration in configurations.items %}
+            <tr>
+              <th scope="row">{{ configuration.id }}</th>
+              <td>{{ configuration.date_time }}</td>
+              <td>{{ configuration.date_time_added }}</td>
+              <td>{{ configuration.date_time_updated }}</td>
+            </tr>
+          {% endfor %}
+
+          </tbody>
+        </table>
+
+        <div class="panel-body">
+
+        {# If we have previous posts #}
+        {% if configurations.has_prev %}
+          <a href="{{ url_for('configurations', page=configurations.prev_num) }}">
+            &laquo; Previous
+          </a>
+        {% else %}
+          &laquo; Previous
+        {% endif %}
+        |
+        {% if configurations.has_next %}
+          <a href="{{ url_for('configurations', page=configurations.next_num) }}">
+            Next &raquo;
+          </a>
+        {% else %}
+            Next &raquo;
+        {% endif %}
+
+        </div>
+
+      </div>
+
+{% endblock %}
