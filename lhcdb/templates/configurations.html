@@ -27,9 +27,9 @@
           {% for configuration in configurations.items %}
             <tr>
               <th scope="row">{{ configuration.id }}</th>
-              <td><a href="{{ url_for('config', id=configuration.id) }}">{{ configuration.date_time }}</a></td>
-              <td>{{ configuration.date_time_added }}</td>
-              <td>{{ configuration.date_time_updated }}</td>
+              <td><a href="{{ url_for('config', id=configuration.id) }}">{{ configuration.date_time.strftime('%m/%d/%Y %I:%M %p') }}</a></td>
+              <td>{{ configuration.date_time_added.strftime('%m/%d/%Y %I:%M %p') }}</td>
+              <td>{{ configuration.date_time_updated.strftime('%m/%d/%Y %I:%M %p') }}</td>
             </tr>
           {% endfor %}
 

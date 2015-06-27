@@ -4,7 +4,7 @@
 {% block content %}
 
       <div class="page-header">
-        <h1>Configuration <small>as of {{ connections.date_time}}</small></h1>
+        <h1>Configuration <small>as of {{ connections.date_time.strftime('%m/%d/%Y %I:%M %p') }}</small></h1>
       </div>
 
       {% include 'connections.html' %}
