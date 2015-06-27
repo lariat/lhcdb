@@ -4,6 +4,31 @@
         <div class="panel panel-default">
 
           <div class="panel-heading">
+            <label class="panel-title control-label" for="date-time">Time stamp</label>
+          </div>
+
+          <div class="panel-body">
+
+            <div class="row">
+              <div class="col-sm-6 col-sm-offset-3">
+                <div class="form-group">
+                  <div class="input-group date" id="datetimepicker">
+                    <input type="text" class="form-control" id="date-time" name="date-time">
+                    <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="panel panel-default">
+
+          <div class="panel-heading">
             <h3 class="panel-title">CAEN board 7</h3>
           </div>
 
@@ -680,3 +705,15 @@
         </div>
 
       </form>
+
+      <link href="{{ url_for('static', filename='lib/datetimepicker/4.14.30/css/datetimepicker.min.css') }}" rel="stylesheet" type="text/css" media="screen">
+      <script src="{{ url_for('static', filename='lib/jquery/1.11.3/jquery-1.11.3.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='lib/bootstrap/3.3.5/js/bootstrap.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='lib/moment/2.10.3/moment.min.js') }}"></script>
+      <script src="{{ url_for('static', filename='lib/datetimepicker/4.14.30/js/datetimepicker.min.js') }}"></script>
+      <script type="text/javascript">
+        $(function () {
+          $('#datetimepicker').datetimepicker();
+        });
+      </script>
+
