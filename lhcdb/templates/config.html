@@ -4,7 +4,14 @@
 {% block content %}
 
       <div class="page-header">
-        <h1>Configuration <small>as of {{ connections.date_time.strftime('%m/%d/%Y %I:%M %p') }}</small></h1>
+        <h1>
+          Configuration <small>as of {{ connections.date_time.strftime('%m/%d/%Y %I:%M %p') }}</small>
+          <small>
+            <a href="{{ url_for('remove_config', id=connections.id, confirm=0) }}">
+              <span class="glyphicon glyphicon-remove"></span>
+            </a>
+          </small>
+        </h1>
       </div>
 
       {% include 'connections.html' %}

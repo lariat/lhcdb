@@ -15,11 +15,19 @@ from lhcdb.auth import requires_auth
 @app.route('/')
 @app.route('/index')
 def index():
+
+    # get latest configuration
     result = HardwareConnections.query.order_by(
         HardwareConnections.date_time.desc()
         ).first()
+
+    # cast result as dictionary
     result_dict = dict(result.__dict__)
+
+    # remove '_sa_instance_state' key
     result_dict.pop('_sa_instance_state', None)
+
+    # render page with the latest configuration
     return render_template('index.html',
                            title='Home',
                            connections=result_dict)
@@ -27,11 +35,15 @@ def index():
 @app.route('/configurations')
 @app.route('/configurations/<int:page>')
 def configurations(page=1):
+
+    # list 10 configurations, paginate with 10 per page
     configs = HardwareConnections.query.order_by(
         HardwareConnections.date_time.desc()
         ).paginate(
             page, 10
             )
+
+    # render page
     return render_template('configurations.html',
                            configurations=configs,
                            title='Configurations')
@@ -48,9 +60,17 @@ def inputs():
 
 @app.route('/config')
 def config():
+
+    # get id from URL: /config?id=id_
     id_ = request.args.get('id', 1)
+
+    # query database for configuration using id
     query = HardwareConnections.query.filter(HardwareConnections.id==id_)
+
+    # use the first result from query
     result = query.first_or_404()
+
+    # render page to display configuration
     return render_template('config.html',
                            title='Configurations',
                            connections=result)
@@ -58,14 +78,57 @@ def config():
 @app.route('/add-config')
 #@requires_auth
 def add_config():
+
+    # get latest configuration
     result = HardwareConnections.query.order_by(
         HardwareConnections.date_time.desc()
         ).first()
+
+    # cast result as a dictionary
     result_dict = dict(result.__dict__)
+
+    # remove '_sa_instance_state' key
     result_dict.pop('_sa_instance_state', None)
+
+    # render form for adding a new configuration using the
+    # latest configuration as template
     return render_template('add-config.html',
                            title='Add new configuration',
                            connections=result_dict)
+
+@app.route('/remove-config')
+#@requires_auth
+def remove_config():
+    
+    # get id from URL: /config?id=id_
+    id_ = request.args.get('id', -1)
+
+    # get confirmation for removal
+    confirm = request.args.get('confirm', 0)
+
+    # cast confirm as int
+    try:
+        confirm = int(confirm)
+    except:
+        confirm = 0
+
+    if confirm > 0:
+
+        # remove configuration
+        HardwareConnections.query.filter_by(id=id_).delete()
+
+        # commit change to database
+        try:
+            db_session.commit()
+        except IntegrityError as e:
+            db_session.rollback()
+            print str(e)
+        except SQLAlchemyError as e:
+            db_session.rollback()
+            print str(e)
+
+    # redirect to configurations page
+    return redirect(url_for('configurations'))
 
 @app.route('/submit-config', methods=['GET', 'POST'])
 #@requires_auth
