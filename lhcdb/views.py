@@ -49,15 +49,6 @@ def configurations(page=1):
                            title='Configurations')
     return 'Hello!'
 
-@app.route('/inputs')
-def inputs():
-    query = db_session.query(Input.name).all()
-    #query = Input.query.with_entities(Input.name).all()
-    results = zip(*query)[0]
-    return render_template('inputs.html',
-                           title='Inputs',
-                           inputs=results)
-
 @app.route('/config')
 def config():
 
